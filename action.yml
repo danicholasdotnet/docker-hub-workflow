@@ -1,10 +1,11 @@
 name: 'Docker Hub'
 description: 'Checkout, build Docker image, push to docker.io repository of same name with current tag and latest.'
+
 inputs:
   docker-hub-password:
-    description: 'docker hub password for username matching the owner of this repo'
-    required: false
-    default: '${{ secrets.DOCKER_HUB }}'
+    description: 'Password for the Docker Hub account with the same username as the owner of the repo you are pushing.'
+    required: true
+
 runs:
   using: "composite"
   steps:
