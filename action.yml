@@ -1,0 +1,23 @@
+name: 'Docker Hub'
+description: 'Checkout, build Docker image, push to docker.io repository of same name with current tag and latest.'
+inputs:
+  docker-hub-password:
+    description: 'docker hub password for username matching the owner of this repo'
+    required: false
+    default: '${{ secrets.DOCKER_HUB }}'
+runs:
+  using: "composite"
+  steps:
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build & push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: ${{ github.repository }}
+          tags: latest, ${{ github.ref_name }}
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ github.repository_owner }}
+          password: ${{ inputs.docker-hub-password }}
