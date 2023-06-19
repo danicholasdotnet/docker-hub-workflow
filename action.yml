@@ -1,5 +1,5 @@
 name: 'Docker Hub'
-description: 'Checkout, build Docker image, push to docker.io repository of same name with current tag and latest.'
+description: 'Checkout, build Docker image, push to docker.io repository of same name with current tag and latest. You can use $TOKEN in your Dockerfile, and it will be replaced with your GITHUB_TOKEN secret.'
 
 inputs:
   docker-hub-password:
@@ -12,6 +12,10 @@ runs:
 
       - name: Check out code
         uses: actions/checkout@v2
+
+      - name: Add GitHub build token to Dockerfile
+        shell: bash
+        run: sed -i 's/\$TOKEN/${{secrets.GITHUB_TOKEN}}/g' Dockerfile
 
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
