@@ -6,6 +6,10 @@ inputs:
     description: 'Password for the Docker Hub account with the same username as the owner of the repo you are pushing.'
     required: true
 
+  npm-install-pat:
+    description: 'PAT for any npm registry you might need to authenticate with, if you are installing private packages. Will replace $TOKEN in your Dockerfile.'
+    required: false
+
 runs:
   using: "composite"
   steps:
@@ -15,7 +19,7 @@ runs:
 
       - name: Add GitHub build token to Dockerfile
         shell: bash
-        run: sed -i 's/\$TOKEN/${{ github.token }}/g' Dockerfile
+        run: sed -i 's/\$TOKEN/${{ inputs.npm-install-pat }}/g' Dockerfile
 
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
