@@ -15,7 +15,7 @@ runs:
 
       - name: Add GitHub build token to Dockerfile
         shell: bash
-        run: sed -i 's/\$TOKEN/${{secrets.GITHUB_TOKEN}}/g' Dockerfile
+        run: sed -i 's/\$TOKEN/${{ github.token }}/g' Dockerfile
 
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
